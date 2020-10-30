@@ -1,6 +1,6 @@
 " Commands
-com Files lua require'fzterm.nvim'.files()
-com GFiles lua require'fzterm.nvim'.gitFiles()
-com Buffers lua require'fzterm.nvim'.buffers()
-com Branch lua require'fzterm.nvim'.branch()
-com Ag lua require'fzterm.nvim'.ag()
+com Files lua require'fzterm'.files()
+com GFiles lua require'fzterm'.gitFiles()
+com Buffers lua require'fzterm'.buffers()
+com Branch lua require'fzterm'.branch()
+com Ag lua require'fzterm'.ag()
