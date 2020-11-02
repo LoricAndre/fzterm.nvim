@@ -3,7 +3,7 @@
 ## Idea
 FZTerm is my attempt at a fuzzy finder plugin, using a floating terminal and basically nothing else.
 The basic idea is to make it fully customizable, the plugins provides the basic framework and a few implementations.
-The only dependencies are fzf and ag, but the framework is still usable without them.
+The only dependencies are bat, fzf and ag, but the framework is still usable without them. 
 
 ## Usage
 ![](usage.gif)
