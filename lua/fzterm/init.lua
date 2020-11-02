@@ -5,7 +5,7 @@ M = {}
 
 local function setup()
   -- Close term on exit
-  api.nvim_command(":au! TermClose * call feedkeys('\\<CR>')")
+  api.nvim_command(":au! TermClose * call feedkeys('\\<Esc>')")
 end
 
 function M.fzterm(pre_cmd, post_cmd, matcher, internal)
