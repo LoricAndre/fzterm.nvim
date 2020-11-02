@@ -52,6 +52,7 @@ M.gitFiles = function()
   M.fzterm("git ls-files")
 end
 
+M.files = function()
   local formatIgnore = function()
     local res = ""
     for i, dir in pairs(vim.g.fzterm_ignore.dir) do
@@ -64,10 +65,12 @@ end
   end
   if vim.g.fzterm_ignore then
     local ignoreFile = formatIgnore()
-    M.fzterm("rg --files --hidden . --ignore-file <(echo " .. ignoreFile .. ")")
+    print(ignoreFile)
+    M.fzterm("rg --files --hidden . --ignore-file <(echo '" .. ignoreFile .. "')")
   else
     M.fzterm("rg --files --hidden .")
   end
+end
 
 M.buffers = function()
   local matcher = "fzf -m --preview 'bat --color=always {2}' -d '\"'"
