@@ -47,7 +47,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   api.nvim_command(":start")
   local on_close = ":au BufEnter * ++once let f = readfile('/tmp/fzterm') | "
   on_close = on_close .. "if !empty(f) | "
-  on_close = on_close .. "for l in f execute 'edit' f[0]"
+  on_close = on_close .. "for l in f | execute 'edit' f[0] | endfor"
   on_close = on_close .. " | endif"
   api.nvim_command(on_close)
 end
