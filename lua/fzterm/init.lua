@@ -65,7 +65,8 @@ M.files = function()
   end
   if vim.g.fzterm_ignore then
     local ignoreFile = formatIgnore()
-    M.fzterm("rg --files --hidden . --ignore-file << " .. ignoreFile )
+    print(ignoreFile)
+    M.fzterm("rg --files --hidden . --ignore-file << EOF\n" .. ignoreFile .. "\nEOF")
   else
     M.fzterm("rg --files --hidden .")
   end
