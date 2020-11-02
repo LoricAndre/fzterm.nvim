@@ -20,7 +20,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   local margin_top = math.floor((editor_height - win_height) / 2)
   local margin_left = math.floor((editor_width - win_width) / 2)
   -- Bindings
-  local default_matcher = "fzf --preview 'bat --color=always {}'"
+  local default_matcher = "fzf -m --preview 'bat --color=always {}'"
   matcher = matcher or default_matcher
   -- Open the window
   local opt = {
@@ -61,7 +61,7 @@ M.files = function()
 end
 
 M.buffers = function()
-  local matcher = "fzf --preview 'bat --color=always {2}' -d '\"'"
+  local matcher = "fzf -m --preview 'bat --color=always {2}' -d '\"'"
   M.fzterm(":ls", "cut -d'\"' -f2", matcher, true)
 end
 
@@ -71,7 +71,7 @@ M.branch = function()
 end
 
 M.ag = function()
-  local matcher = "fzf --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
+  local matcher = "fzf -m --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
   M.fzterm("ag --nobreak --noheading '.+' .", "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
 end
 
