@@ -10,6 +10,9 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 The `:Files`, `:GFiles`, `:Buffers`, `:Branches` and `:Ag` commands are implemented, and the rest is up to your needs and creativity.
 You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`.
 
+## Configuration
+ - The `g:fzterm_ignore` can be used to ignore files, for example `let g:fzterm_ignore = {'.git', 'node_modules'}`
+
 ## Extensions
  - The plugins provides the `fzterm` function, accessible via `lua require'fzterm'.fzterm()`
  - The function takes 4 arguments, the first 3 are shell commands :
