@@ -9,10 +9,10 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   -- Window geometry
   local editor_width = api.nvim_get_option('columns')
   local editor_height = api.nvim_get_option('lines')
-  local win_width = math.floor(vim.g.fzterm_width or editor_width * 3 / 4)
-  local win_height = math.floor(vim.g.fzterm_height or editor_height / 2)
-  local margin_top = math.floor((editor_height - win_height) / 2)
-  local margin_left = math.floor((editor_width - win_width) / 2)
+  local win_width = math.floor(vim.g.fzterm_width or editor_width * (vim.g.fzterm_width_ration or 0.75))
+  local win_height = math.floor(vim.g.fzterm_height or editor_height * (vim.g.fzterm_height_ratio or 0.5))
+  local margin_top = math.floor((editor_height - win_height) * (vim.g.fzterm_margin_top or 0.5))
+  local margin_left = math.floor((editor_width - win_width) * (vim.g.fzterm_margin_left or 0.5))
   -- Bindings
   local default_matcher = "fzf -m --preview 'bat --color=always {}'"
   matcher = matcher or default_matcher
