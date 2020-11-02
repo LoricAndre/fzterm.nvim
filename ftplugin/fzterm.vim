@@ -1,2 +1,2 @@
-au! TermClose <buffer> :bd!
+au! TermClose <buffer> :call feedkeys('\<Esc>')
 
