@@ -43,6 +43,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   else
     post_cmd = ""
   end
+  api.nvim_buf_set_keymap(buf, 't', '<Esc>', '<C-\\><C-n>:q<CR>', {silent = true})
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > /tmp/fzterm")
   api.nvim_command(":start")
   local on_close = ":au BufEnter * ++once let f = readfile('/tmp/fzterm') | "
