@@ -3,11 +3,6 @@ local api = vim.api
 
 M = {}
 
-local function setup()
-  -- Close term on exit
-  api.nvim_command(":au! TermClose * call feedkeys('\\<Esc>')")
-end
-
 function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   local buf = api.nvim_create_buf(false, false)
 
@@ -28,7 +23,6 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
     col = margin_left,
     width = win_width,
     height = win_height,
-    style = 'minimal'
   }
   api.nvim_open_win(buf, true, opt)
 
@@ -43,7 +37,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
     post_cmd = ""
   end
 
-  api.nvim_buf_set_keymap(buf, 't', '<Esc>', '<C-\\><C-n>:q<CR>', {silent = true})
+  api.nvim_buf_set_keymap(buf, 't', '<Esc>', '<C-\\><C-n>:q<CR>', {})
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > /tmp/fzterm")
   api.nvim_command(":start")
   local on_close = ":au BufEnter * ++once let f = readfile('/tmp/fzterm') | "
