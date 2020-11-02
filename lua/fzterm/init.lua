@@ -85,6 +85,7 @@ M.ag = function()
   local formatIgnore = function()
     for _, path in pairs(vim.g.fzterm_ignore.dir) do
       cmd = cmd .. " --ignore ".. path
+    end
   end
   if vim.g.fzterm_ignore then
     formatIgnore() 
