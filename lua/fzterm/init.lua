@@ -53,7 +53,22 @@ M.gitFiles = function()
 end
 
 M.files = function()
-  M.fzterm("rg --files --hidden .")
+  local formatIgnore = function()
+    local res = ""
+    for dir in vim.g.fzterm_ignore.dir do
+      res = res .. dir .. "/\n"
+    end
+    for file in vim.g.fzterm_ignore.file do
+      res = res .. file .. "\n"
+    end
+    return res
+  end
+  if vim.g.fzterm_ignore then
+    local ignoreFile = formatIgnore()
+    M.fzterm("rg --files --hidden . --ignore-file << " .. ignoreFile )
+  else
+    M.fzterm("rg --files --hidden .")
+  end
 end
 
 M.buffers = function()
@@ -68,7 +83,19 @@ end
 
 M.ag = function()
   local matcher = "fzf -m --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
-  M.fzterm("ag --nobreak --noheading '.+' .", "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
+  local cmd = "ag --nobreak --noheading '.+' ."
+  local formatIgnore = function()
+    for dir in vim.g.fzterm_ignore.dir do
+      cmd = cmd .. " --ignore ".. dir
+    end
+    for file in vim.g.fzterm_ignore.file do
+      res = res .. " --ignore ".. file
+    end
+  end
+  if vim.g.fzterm_ignore then
+    formatIgnore() 
+  end
+  M.fzterm(cmd, "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
 end
 
 M.filesOrGitFiles = function()
