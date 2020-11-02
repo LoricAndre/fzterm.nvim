@@ -3,6 +3,11 @@ local api = vim.api
 
 M = {}
 
+local function setup()
+  -- Close term on exit
+  api.nvim_command(":au! TermClose * call feedkeys('\\<Esc>')")
+end
+
 function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   local buf = api.nvim_create_buf(false, false)
 
