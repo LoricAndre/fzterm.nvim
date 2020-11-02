@@ -36,7 +36,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   -- Maybe we'll use fd at some point, but for middle-scale projects it's an unnecessary dependency
   if internal then
     api.nvim_command(":redir! > /tmp/fztermcmd | silent " .. pre_cmd .. " | redir end")
-    pre_cmd = "cat /tmp/fztermcmd"
+    pre_cmd = "sed 1d /tmp/fztermcmd"
   end
   if post_cmd then
     post_cmd = " | " .. post_cmd
