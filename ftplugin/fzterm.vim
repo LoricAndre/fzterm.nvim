@@ -1,1 +1,1 @@
-au! TermClose <buffer> :q<CR>
+au! TermClose <buffer> :q
