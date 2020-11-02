@@ -12,13 +12,21 @@ You can use the basic commands by simply calling them or mapping them, for examp
 
 ## Configuration
  - The `g:fzterm_ignore` can be used to ignore files, for example `let g:fzterm_ignore = {'.git', 'node_modules'}`
- - The window's geometry can be configured using the following global variables :
+ - The window's geometry can be configured using the following global variables:
   - `g:fzterm_width` sets the absolute width in columns
   - `g:fzterm_height` sets the absolute height in lines
-  - `g:fzterm_width_ratio` is the ratio between the floating window width and the editor window's (default is 0.75)
-  - `g:fzterm_height_ratio` is the ratio between the floating window height and the editor window's (default is 0.75)
-  - `g:fzterm_margin_left` is the ratio of the editor window left as a margin on the left side of the floating window (default is 0.25)
-  - `g:fzterm_margin_top` is the ratio of the editor window top as a margin on the top side of the floating window (default is 0.25)
+  - `g:fzterm_width_ratio` is the ratio between the floating window width and the editor window's (default is "0.75")
+  - `g:fzterm_height_ratio` is the ratio between the floating window height and the editor window's (default is "0.75")
+  - `g:fzterm_margin_left` is the ratio of the editor window left as a margin on the left side of the floating window (default is "0.25")
+  - `g:fzterm_margin_top` is the ratio of the editor window top as a margin on the top side of the floating window (default is "0.25")
+  - For example, here is the config for a window that would span the whole width, half the height and would be docked at the bottom :
+  ```
+  let g:fzterm_width_ratio = "1"
+  let g:fzterm_height_ration = "0.5"
+  let g:fzterm_margin_left = "0"
+  let g:fzterm_margin_top = "0.5"
+  ```
+
 
 ## Extensions
  - The plugins provides the `fzterm` function, accessible via `lua require'fzterm'.fzterm()`
