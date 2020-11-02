@@ -71,4 +71,12 @@ M.ag = function()
   M.fzterm("ag --nobreak --noheading '.+' .", "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
 end
 
+M.filesOrGitFiles = function()
+  if vim.fn.isdirectory('.git') then
+    M.gitFiles()
+  else
+    M.files()
+  end
+end
+
 return M

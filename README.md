@@ -17,7 +17,7 @@ You can use the basic commands by simply calling them or mapping them, for examp
   - `post_cmd`, the command the result is piped into, if empty or `false` the result is simply opened in a new buffer
   - `matcher`, what pre_cmd is piped into, usually fzf with args (default is `fzf --preview -m 'bat --color=always {}'`)
   - `internal` changes the way `pre_cmd` is ran : if `true`, pre_cmd can be a vim command and will be executed in the current buffer
- - For example, here is the code for the implemented commads :
+ - For example, here is the code for some implemented commands :
  ```lua
   M.gitFiles = function()
     M.fzterm("git ls-files")
