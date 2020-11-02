@@ -8,7 +8,7 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 ## Usage
 ![](usage.gif)
 The `:Files`, `:GFiles`, `:Buffers`, `:Branches` and `:Ag` commands are implemented, and the rest is up to your needs and creativity.
-
+You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`.
 
 ## Extensions
  - The plugins provides the `fzterm` function, accessible via `lua require'fzterm'.fzterm()`
@@ -42,4 +42,8 @@ The `:Files`, `:GFiles`, `:Buffers`, `:Branches` and `:Ag` commands are implemen
     M.fzterm("ag --nobreak --noheading '.+' .", "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
   end
 ```
+ - To use them in an init.vim, you can add something like this : 
+ ```
+   command FilesExcludeHidden :lua require'fzterm'.fzterm('rg --files .')
+ ```
 
