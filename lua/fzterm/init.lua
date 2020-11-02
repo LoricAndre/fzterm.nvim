@@ -55,11 +55,8 @@ end
 M.files = function()
   local formatIgnore = function()
     local res = ""
-    for i, dir in pairs(vim.g.fzterm_ignore.dir) do
-      res = res .. dir .. "/\n"
-    end
-    for i, file in pairs(vim.g.fzterm_ignore.file) do
-      res = res .. file .. "\n"
+    for _, path in pairs(vim.g.fzterm_ignore) do
+      res = res .. path .. "\n"
     end
     return res
   end
@@ -86,12 +83,8 @@ M.ag = function()
   local matcher = "fzf -m --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
   local cmd = "ag --nobreak --noheading '.+' ."
   local formatIgnore = function()
-    for i, dir in pairs(vim.g.fzterm_ignore.dir) do
-      cmd = cmd .. " --ignore ".. dir
-    end
-    for i, file in pairs(vim.g.fzterm_ignore.file) do
-      cmd = cmd .. " --ignore ".. file
-    end
+    for _, path in pairs(vim.g.fzterm_ignore.dir) do
+      cmd = cmd .. " --ignore ".. path
   end
   if vim.g.fzterm_ignore then
     formatIgnore() 
