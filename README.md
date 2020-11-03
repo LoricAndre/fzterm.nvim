@@ -7,8 +7,14 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 
 ## Usage
 ![](usage.gif)
-The `:Files`, `:GFiles`, `:Buffers`, `:Branches` and `:Ag` commands are implemented, and the rest is up to your needs and creativity.
-You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`.
+ - Implemented commands :
+  - `:Files` lists files in your directory, respecting `g:fzterm_ignore` but showing other hidden files (calls `lua require'fzterm'.files()`)
+  - `:GFiles` lists the files tracked by git (calls `lua require'fzterm'.gitFiles()`)
+  - `:Buffers` lists open buffers (calls `lua require'fzterm'.buffers()`)
+  - `:Branches` lists branches and lets you checkout to the one you select (calls `lua require'fzterm'.branch()`)
+  - `:Ag` searches inside files with the Silver Searcher, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.ag()`)
+  - `:FilesOrGFiles` runs `:Files` or `:GFiles` depending on if vim's working dir is a git repo (calls `lua require'fzterm'.filesOrGitFiles()`)
+ - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration
  - The `g:fzterm_ignore` can be used to ignore files, for example `let g:fzterm_ignore = {'.git', 'node_modules'}`
@@ -26,6 +32,8 @@ You can use the basic commands by simply calling them or mapping them, for examp
   let g:fzterm_margin_left = "0"
   let g:fzterm_margin_top = "0.5"
   ```
+ - The `g:fzterm_disable_com` variable can be set to true to disable all built-in commands. If you set this, you will need to manually configure your commands : 
+  `command Files lua require'fzterm'.files()`
 
 
 ## Extensions
@@ -35,31 +43,20 @@ You can use the basic commands by simply calling them or mapping them, for examp
   - `post_cmd`, the command the result is piped into, if empty or `false` the result is simply opened in a new buffer
   - `matcher`, what pre_cmd is piped into, usually fzf with args (default is `fzf --preview -m 'bat --color=always {}'`)
   - `internal` changes the way `pre_cmd` is ran : if `true`, pre_cmd can be a vim command and will be executed in the current buffer
- - For example, here is the code for some implemented commands :
+ - For example, here would be the code to change `rg` to a basic `find` for the `:Files` command :
  ```lua
-  M.gitFiles = function()
-    M.fzterm("git ls-files")
+  local fzterm = require'fzterm'
+  fzterm.files = function()
+    local pre_cmd = "find ."
+    fzterm.fzterm(pre_cmd)
   end
-
-  M.files = function()
-    M.fzterm("rg --files --hidden .")
-  end
-
-  M.buffers = function()
-    local matcher = "fzf -m --preview 'bat --color=always {2}' -d '\"'"
-    M.fzterm(":ls", "cut -d'\"' -f2", matcher, true)
-  end
-
-  M.branch = function()
-    local matcher = "fzf"
-    M.fzterm("git branch", "xargs git checkout > /dev/null 2>&1", matcher)
-  end
-
-  M.ag = function()
-    local matcher = "fzf -m --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
-    M.fzterm("ag --nobreak --noheading '.+' .", "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
-  end
-```
+ ```
+  - For vimscript, you would wrap the code block into :
+  ```
+  lua << EOF
+    CODE_HERE 
+  EOF
+  ```
  - To use them in an init.vim, you can add something like this : 
  ```
    command FilesExcludeHidden :lua require'fzterm'.fzterm('rg --files .')
