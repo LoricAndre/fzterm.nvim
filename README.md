@@ -13,6 +13,7 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
    - `:Buffers` lists open buffers (calls `lua require'fzterm'.buffers()`)
    - `:Branches` lists branches and lets you checkout to the one you select (calls `lua require'fzterm'.branch()`)
    - `:Ag` searches inside files with the Silver Searcher, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.ag()`)
+   - `:Rg` searches inside files with ripgrep, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.rg()`)
   - `:FilesOrGFiles` runs `:Files` or `:GFiles` depending on if vim's working dir is a git repo (calls `lua require'fzterm'.filesOrGitFiles()`)
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 

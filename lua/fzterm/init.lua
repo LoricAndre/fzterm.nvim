@@ -30,7 +30,6 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   if vim.fn.has("win32") == 1 then
     tmp = vim.env.TEMP or "/temp"
   end
-  print(tmp)
   if internal then
     api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
@@ -82,17 +81,35 @@ M.branch = function()
 end
 
 M.ag = function()
-  local matcher = "fzf -m --preview 'ag --color -n -C 8 {-1} {1}' -d ':'"
+  local matcher = "fzf -m --preview 'ag --color -n -C 8 -Q {-1} {1}' -d ':'"
   local cmd = "ag --nobreak --noheading '.+' ."
   local formatIgnore = function()
     for _, path in pairs(vim.g.fzterm_ignore) do
-      cmd = cmd .. " --ignore ".. path
+      cmd = cmd .. " --ignore \"" .. path .. "\""
     end
   end
   if vim.g.fzterm_ignore then
-    formatIgnore() 
+    formatIgnore()
+    print(cmd)
   end
   M.fzterm(cmd, "awk -F: '{printf \"+\\%s \\%s\", $2, $1}'", matcher)
+end
+
+M.rg = function()
+  local cmd = "rg --hidden ."
+  local formatIgnore = function()
+    local res = ""
+    for _, path in pairs(vim.g.fzterm_ignore) do
+      res = res .. path .. "\\n"
+    end
+    return res
+  end
+  if vim.g.fzterm_ignore then
+    local ignoreFile = formatIgnore()
+    cmd = "rg --hidden . --ignore-file <(echo '" .. ignoreFile .. "')"
+  end
+  local matcher = "fzf -m --preview 'rg -C 10 --color=always -F {-1} {1}' -d ':'"
+  M.fzterm(cmd, "cut -d':' -f1", matcher)
 end
 
 M.filesOrGitFiles = function()
