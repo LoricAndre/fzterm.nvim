@@ -42,7 +42,7 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
  - The function takes 4 arguments, the first 3 are shell commands :
    - `pre_cmd`, the command that will be piped into fzf or any fuzzy finder you choose (see 'matcher' arg)
    - `post_cmd`, the command the result is piped into, if empty or `false` the result is simply opened in a new buffer
-   - `matcher`, what pre_cmd is piped into, usually fzf with args (default is `fzf --preview -m 'bat --color=always {}'`)
+   - `matcher`, what pre_cmd is piped into, usually fzf with args (default is `fzf --preview -m 'bat --color=always -n {}'`)
    - `internal` changes the way `pre_cmd` is ran : if `true`, pre_cmd can be a vim command and will be executed in the current buffer
  - For example, here would be the code to change `rg` to a basic `find` for the `:Files` command :
    - lua :
