@@ -14,7 +14,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   local margin_top = math.floor((editor_height - win_height) * (vim.g.fzterm_margin_top or 0.25) * 2)
   local margin_left = math.floor((editor_width - win_width) * (vim.g.fzterm_margin_left or 0.25) * 2)
   -- Bindings
-  local default_matcher = "fzf -m --preview 'bat --color=always {}'"
+  local default_matcher = "fzf -m --preview 'bat --color=always -n {}'"
   matcher = matcher or default_matcher
   -- Open the window
   local opt = {
@@ -70,7 +70,7 @@ M.files = function()
 end
 
 M.buffers = function()
-  local matcher = "fzf -m --preview 'bat --color=always {2}' -d '\"'"
+  local matcher = "fzf -m --preview 'bat --color=always -n {2}' -d '\"'"
   M.fzterm(":ls", "cut -d'\"' -f2", matcher, true)
 end
 
@@ -80,7 +80,7 @@ M.branch = function()
 end
 
 M.ag = function()
-  local matcher = "fzf -m --preview 'ag --color --nonumber -C 8 {-1} {1}' -d ':'"
+  local matcher = "fzf -m --preview 'ag --color -n -C 8 {-1} {1}' -d ':'"
   local cmd = "ag --nobreak --noheading '.+' ."
   local formatIgnore = function()
     for _, path in pairs(vim.g.fzterm_ignore) do
