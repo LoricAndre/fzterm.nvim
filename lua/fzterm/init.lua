@@ -71,7 +71,8 @@ M.files = function()
 end
 
 M.buffers = function()
-  local matcher = "fzf -m --preview 'bat --color=always -n {2}' -d '\"'"
+  local matcher = "fzf -m --preview 'bat --color=always -n \"$(echo {2} | sed \"'\"s;~;$HOME;\"\'\")\"' -d '\"'"
+  print(matcher)
   M.fzterm(":ls", "cut -d'\"' -f2", matcher, true)
 end
 
