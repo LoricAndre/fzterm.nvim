@@ -8,11 +8,11 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 ## Usage
 ![](usage.gif)
  - Implemented commands :
-  - `:Files` lists files in your directory, respecting `g:fzterm_ignore` but showing other hidden files (calls `lua require'fzterm'.files()`)
-  - `:GFiles` lists the files tracked by git (calls `lua require'fzterm'.gitFiles()`)
-  - `:Buffers` lists open buffers (calls `lua require'fzterm'.buffers()`)
-  - `:Branches` lists branches and lets you checkout to the one you select (calls `lua require'fzterm'.branch()`)
-  - `:Ag` searches inside files with the Silver Searcher, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.ag()`)
+   - `:Files` lists files in your directory, respecting `g:fzterm_ignore` but showing other hidden files (calls `lua require'fzterm'.files()`)
+   - `:GFiles` lists the files tracked by git (calls `lua require'fzterm'.gitFiles()`)
+   - `:Buffers` lists open buffers (calls `lua require'fzterm'.buffers()`)
+   - `:Branches` lists branches and lets you checkout to the one you select (calls `lua require'fzterm'.branch()`)
+   - `:Ag` searches inside files with the Silver Searcher, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.ag()`)
   - `:FilesOrGFiles` runs `:Files` or `:GFiles` depending on if vim's working dir is a git repo (calls `lua require'fzterm'.filesOrGitFiles()`)
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
