@@ -26,11 +26,13 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
     style = 'minimal'
   }
   api.nvim_open_win(buf, true, opt)
-
-  -- Maybe we'll use fd at some point, but for middle-scale projects it's an unnecessary dependency
+  local tmp = "/tmp"
+  if vim.has("win32") then
+    tmp = vim.env("TEMP")
+  end
   if internal then
-    api.nvim_command(":redir! > /tmp/fztermcmd | silent " .. pre_cmd .. " | redir end")
-    pre_cmd = "sed 1d /tmp/fztermcmd"
+    api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
+    pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
   end
   if post_cmd then
     post_cmd = " | " .. post_cmd
@@ -38,10 +40,10 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
     post_cmd = ""
   end
 
-  api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > /tmp/fzterm")
+  api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
   api.nvim_command(":start")
   api.nvim_command(':set ft=fzterm')
-  local on_close = ":au BufEnter * ++once let f = readfile('/tmp/fzterm') | "
+  local on_close = ":au BufEnter * ++once let f = readfile('" .. tmp.. "/fzterm') | "
   on_close = on_close .. "if !empty(f) | "
   on_close = on_close .. "for l in f | execute 'edit' f[0] | endfor"
   on_close = on_close .. " | endif"
