@@ -27,9 +27,10 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   }
   api.nvim_open_win(buf, true, opt)
   local tmp = "/tmp"
-  if vim.has("win32") then
-    tmp = vim.env("TEMP")
+  if vim.fn.has("win32") == 1 then
+    tmp = vim.env.TEMP or "/temp"
   end
+  print(tmp)
   if internal then
     api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
@@ -64,7 +65,6 @@ M.files = function()
   end
   if vim.g.fzterm_ignore then
     local ignoreFile = formatIgnore()
-    print(ignoreFile)
     M.fzterm("rg --files --hidden . --ignore-file <(echo '" .. ignoreFile .. "')")
   else
     M.fzterm("rg --files --hidden .")
