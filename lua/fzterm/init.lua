@@ -42,7 +42,7 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
 
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
   api.nvim_command(":start")
-  api.nvim_command(':set ft=fzterm')
+  api.nvim_command(":au TermClose */fzterm* :call feedkeys('')")
   local on_close = ":au BufEnter * ++once let f = readfile('" .. tmp.. "/fzterm') | "
   on_close = on_close .. "if !empty(f) | "
   on_close = on_close .. "for l in f | execute 'edit' f[0] | endfor"
