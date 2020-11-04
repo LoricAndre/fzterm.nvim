@@ -3,8 +3,18 @@ local api = vim.api
 
 M = {}
 
+local function get_tmp()
+  local tmp = "/tmp"
+  if vim.fn.has("win32") == 1 then
+    tmp = vim.env.TEMP or "/temp"
+  end
+  return tmp
+end
+
 function M.fzterm(pre_cmd, post_cmd, matcher, internal)
+  local base_win = api.nvim_get_current_win()
   local buf = api.nvim_create_buf(false, false)
+  local tmp = get_tmp()
 
   -- Window geometry
   local editor_width = api.nvim_get_option('columns')
@@ -26,10 +36,6 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
     style = 'minimal'
   }
   api.nvim_open_win(buf, true, opt)
-  local tmp = "/tmp"
-  if vim.fn.has("win32") == 1 then
-    tmp = vim.env.TEMP or "/temp"
-  end
   if internal then
     api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
@@ -39,15 +45,24 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   else
     post_cmd = ""
   end
-
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
   api.nvim_command(":start")
-  api.nvim_command(":au TermClose */fzterm* :call feedkeys('')")
-  local on_close = ":au BufEnter * ++once let f = readfile('" .. tmp.. "/fzterm') | "
-  on_close = on_close .. "if !empty(f) | "
-  on_close = on_close .. "for l in f | execute 'edit' f[0] | endfor"
-  on_close = on_close .. " | endif"
-  api.nvim_command(on_close)
+  api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.close_win(" .. base_win .. ")")
+end
+
+local edit = function()
+  local tmp = get_tmp()
+  local f = io.open(tmp .. "/fzterm")
+  for l in f:lines() do
+    vim.cmd(":edit " .. l)
+  end
+end
+
+M.close_win = function(base_win)
+  local float_win = api.nvim_get_current_win()
+  api.nvim_set_current_win(base_win)
+  vim.defer_fn(edit, 1)
+  api.nvim_win_close(float_win, true)
 end
 
 M.gitFiles = function()
