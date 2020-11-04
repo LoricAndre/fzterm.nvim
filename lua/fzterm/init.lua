@@ -155,4 +155,8 @@ M.blame = function()
   M.fzterm(pre_cmd, "false", matcher)
 end
 
+M.commit = function()
+  M.fzterm('git commit -a -q || true', false, 'xargs echo')
+end
+
 return M
