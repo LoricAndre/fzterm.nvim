@@ -156,7 +156,7 @@ M.blame = function()
 end
 
 M.commit = function()
-  M.fzterm('git commit -a -q || true', false, 'xargs echo && echo "\\n\\nPress enter to continue..." && read')
+  M.fzterm('git commit -a || true', false, 'xargs echo && echo "\\n\\nPress enter to continue..." && read')
 end
 
 return M
