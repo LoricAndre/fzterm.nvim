@@ -46,7 +46,6 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal, edit_cmd)
     post_cmd = ""
   end
   local cmd = edit_cmd or "edit"
-  print("a", cmd)
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
   api.nvim_command(":start")
   api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.exec_and_close("
@@ -94,7 +93,7 @@ end
 
 M.buffers = function()
   local matcher = "fzf -m --preview 'bat --color=always -n \"$(echo {2} | sed \"'\"s;~;$HOME;\"\'\")\"' -d '\"'"
-  M.fzterm(":ls", "cut -f1", matcher, true, "buffer")
+  M.fzterm(":ls", "awk '{print $1}'", matcher, true, "buffer")
 end
 
 M.branch = function()
