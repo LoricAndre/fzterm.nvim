@@ -143,9 +143,9 @@ end
 
 M.commits = function()
   local pre_cmd = "git log --pretty=oneline"
-  local post_cmd = "awk '{print $1}' | xargs git show --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
-      .. " -1 --name-only --color && printf '\\n\\nPress enter to continue...' && read"
-  M.fzterm(pre_cmd, post_cmd, 'fzf')
+  local matcher = "fzf -n2.. --preview=\"awk '{print $1}' | xargs git show --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
+      .. " -1 --name-only --color {1}\""
+  M.fzterm(pre_cmd, "false", matcher)
 end
 
 M.blame = function()
