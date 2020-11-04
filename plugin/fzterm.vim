@@ -7,4 +7,5 @@ if !exists("g:fzterm_disable_com") || !g:fzterm_disable_com
   com Ag lua require'fzterm'.ag()
   com Rg lua require'fzterm'.rg()
   com FilesOrGFiles lua require'fzterm'.filesOrGitFiles()
+  com Commits lua require'fzterm'.commits()
 endif

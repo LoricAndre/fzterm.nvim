@@ -141,4 +141,11 @@ M.filesOrGitFiles = function()
   end
 end
 
+M.commits = function()
+  local pre_cmd = "git log --pretty=oneline"
+  local post_cmd = "awk '{print $1}' | xargs git log --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
+      .. " -1 --name-only --color && printf '\\n\\nPress enter to continue...' && read"
+  M.fzterm(pre_cmd, post_cmd, 'fzf')
+end
+
 return M
