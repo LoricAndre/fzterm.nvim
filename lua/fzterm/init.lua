@@ -11,7 +11,7 @@ local function get_tmp()
   return tmp
 end
 
-function M.fzterm(pre_cmd, post_cmd, matcher, internal)
+function M.fzterm(pre_cmd, post_cmd, matcher, internal, edit_cmd)
   local base_win = api.nvim_get_current_win()
   local buf = api.nvim_create_buf(false, false)
   local tmp = get_tmp()
@@ -45,24 +45,31 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal)
   else
     post_cmd = ""
   end
+  local cmd = edit_cmd or "edit"
+  print("a", cmd)
   api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
   api.nvim_command(":start")
-  api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.close_win(" .. base_win .. ")")
+  api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.exec_and_close("
+  .. base_win ..  ", "
+  .. buf .. ", \""
+  .. cmd .. "\")")
 end
 
-local edit = function()
+local edit = function(cmd)
   local tmp = get_tmp()
   local f = io.open(tmp .. "/fzterm")
   for l in f:lines() do
-    vim.cmd(":edit " .. l)
+    vim.cmd(":" .. cmd .. " " .. l)
   end
 end
 
-M.close_win = function(base_win)
+M.exec_and_close = function(base_win, buf, edit_cmd)
   local float_win = api.nvim_get_current_win()
   api.nvim_set_current_win(base_win)
-  vim.defer_fn(edit, 1)
+  print("b", edit_cmd)
+  vim.defer_fn(function() return edit(edit_cmd) end, 1)
   api.nvim_win_close(float_win, true)
+  api.nvim_buf_delete(buf, {force = true})
 end
 
 M.gitFiles = function()
@@ -87,8 +94,7 @@ end
 
 M.buffers = function()
   local matcher = "fzf -m --preview 'bat --color=always -n \"$(echo {2} | sed \"'\"s;~;$HOME;\"\'\")\"' -d '\"'"
-  print(matcher)
-  M.fzterm(":ls", "cut -d'\"' -f2", matcher, true)
+  M.fzterm(":ls", "cut -f1", matcher, true, "buffer")
 end
 
 M.branch = function()
