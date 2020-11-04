@@ -16,6 +16,7 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
    - `:Rg` searches inside files with ripgrep, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.rg()`)
    - `:FilesOrGFiles` runs `:Files` or `:GFiles` depending on if vim's working dir is a git repo (calls `lua require'fzterm'.filesOrGitFiles()`)
    - `:Commits` lists previous commits and calls `git show` on the selected commit's hash (calls `lua require'fzterm'.commits()`)
+   - `:Blame` shows git blame for the current buffer, with commit info in the preview window. Matching is done on any field but the commit hash (calls `lua require'fzterm'.blame()`)
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration

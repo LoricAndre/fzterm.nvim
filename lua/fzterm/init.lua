@@ -143,9 +143,16 @@ end
 
 M.commits = function()
   local pre_cmd = "git log --pretty=oneline"
-  local post_cmd = "awk '{print $1}' | xargs git log --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
+  local post_cmd = "awk '{print $1}' | xargs git show --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
       .. " -1 --name-only --color && printf '\\n\\nPress enter to continue...' && read"
   M.fzterm(pre_cmd, post_cmd, 'fzf')
+end
+
+M.blame = function()
+  local pre_cmd = "git blame -s " .. vim.fn.expand('%')
+  local matcher = "fzf --preview \"git show --pretty='\\%Cred\\%H\\%n\\%Cblue\\%an\\%n\\%Cgreen\\%s'"
+      .. " -1 --name-only --color -n1 {1}\" -n2.."
+  M.fzterm(pre_cmd, "false", matcher)
 end
 
 return M
