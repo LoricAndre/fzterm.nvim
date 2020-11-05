@@ -1,5 +1,4 @@
 local vim = vim -- just so lsp will shut up
-local api = vim.api
 
 M = {}
 
@@ -12,13 +11,13 @@ local function get_tmp()
 end
 
 function M.fzterm(pre_cmd, post_cmd, matcher, internal, edit_cmd)
-  local base_win = api.nvim_get_current_win()
-  local buf = api.nvim_create_buf(false, false)
+  local base_win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_create_buf(false, false)
   local tmp = get_tmp()
 
   -- Window geometry
-  local editor_width = api.nvim_get_option('columns')
-  local editor_height = api.nvim_get_option('lines')
+  local editor_width = vim.api.nvim_get_option('columns')
+  local editor_height = vim.api.nvim_get_option('lines')
   local win_width = math.floor(vim.g.fzterm_width or editor_width * (vim.g.fzterm_width_ratio or 0.75))
   local win_height = math.floor(vim.g.fzterm_height or editor_height * (vim.g.fzterm_height_ratio or 0.5))
   local margin_top = math.floor((editor_height - win_height) * (vim.g.fzterm_margin_top or 0.25) * 2)
@@ -35,9 +34,9 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal, edit_cmd)
     height = win_height,
     style = 'minimal'
   }
-  api.nvim_open_win(buf, true, opt)
+  vim.api.nvim_open_win(buf, true, opt)
   if internal then
-    api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
+    vim.api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
   end
   if post_cmd then
@@ -46,9 +45,9 @@ function M.fzterm(pre_cmd, post_cmd, matcher, internal, edit_cmd)
     post_cmd = ""
   end
   local cmd = edit_cmd or "edit"
-  api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
-  api.nvim_command(":start")
-  api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.exec_and_close("
+  vim.api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
+  vim.api.nvim_command(":start")
+  vim.api.nvim_command(":au TermClose <buffer> :lua require'fzterm'.exec_and_close("
   .. base_win ..  ", "
   .. buf .. ", \""
   .. cmd .. "\")")
@@ -63,12 +62,11 @@ local edit = function(cmd)
 end
 
 M.exec_and_close = function(base_win, buf, edit_cmd)
-  local float_win = api.nvim_get_current_win()
-  api.nvim_set_current_win(base_win)
-  print("b", edit_cmd)
+  local float_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_set_current_win(base_win)
   vim.defer_fn(function() return edit(edit_cmd) end, 10)
-  api.nvim_win_close(float_win, true)
-  api.nvim_buf_delete(buf, {force = true})
+  vim.api.nvim_win_close(float_win, true)
+  vim.api.nvim_buf_delete(buf, {force = true})
 end
 
 M.gitFiles = function()
