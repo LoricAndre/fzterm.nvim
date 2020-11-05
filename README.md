@@ -8,18 +8,19 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 ## Usage
 ![](usage.gif)
  - Implemented commands : (can be called with the vim command or `lua require'fzterm'.xxx()`, xxx being the function called)
+ 
  | Vim command |          Summary         | Respects `g:fzterm_ignore` | function called |
  | ----------- | ------------------------ | -------------------------- | --------------- |
- | `:Files`      | Lists files in `pwd`     | Yes                         `files`            |
- | `:GFiles`     | Lists git-files          | No                          `gitFiles`         |
- | `:Buffers`    | Lists open buffers       | No                          `buffers`          |
- | `:Branches`   | Lists git branches and lets you checkout to the selected one | No  `branch`  |
- | `:Ag` | Searches files with the silver searcher | Yes  `ag`  |
- | `:Rg` | Searches files with Ripgrep | Yes  `rg`  |
- | `:FilesOrGFiles` | Runs  `:Files` or `:GFiles` depending on the presence of a .git directory at vim's `pwd` | No | filesOrGitFiles |
- | `:Commits` | Lists git commits and shows you details | No  `commits`  |
- | `:Blame` | Runs git blame on the file and lets you search the lines, displaying commit details in preview window | No  `blame`  |
- | `:Commit` | Runs git commit in the preview window | No  `commit`  |
+ | `:Files`      | Lists files in `pwd`     | Yes                       |  `files`            |
+ | `:GFiles`     | Lists git-files          | No                        |  `gitFiles`         |
+ | `:Buffers`    | Lists open buffers       | No                        |  `buffers`          |
+ | `:Branches`   | Lists git branches and lets you checkout to the selected one | No | `branch`  |
+ | `:Ag` | Searches files with the silver searcher | Yes | `ag`  |
+ | `:Rg` | Searches files with Ripgrep | Yes | `rg`  |
+ | `:FilesOrGFiles` | Runs  `:Files` or `:GFiles` depending on the presence of a .git directory at vim's `pwd` | No | `filesOrGitFiles` |
+ | `:Commits` | Lists git commits and shows you details | No | `commits`  |
+ | `:Blame` | Runs git blame on the file and lets you search the lines, displaying commit details in preview window | No | `blame`  |
+ | `:Commit` | Runs git commit in the preview window | No | `commit`  |
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration
