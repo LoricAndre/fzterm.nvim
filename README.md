@@ -7,17 +7,19 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
 
 ## Usage
 ![](usage.gif)
- - Implemented commands :
-   - `:Files` lists files in your directory, respecting `g:fzterm_ignore` but showing other hidden files (calls `lua require'fzterm'.files()`)
-   - `:GFiles` lists the files tracked by git (calls `lua require'fzterm'.gitFiles()`)
-   - `:Buffers` lists open buffers (calls `lua require'fzterm'.buffers()`)
-   - `:Branches` lists branches and lets you checkout to the one you select (calls `lua require'fzterm'.branch()`)
-   - `:Ag` searches inside files with the Silver Searcher, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.ag()`)
-   - `:Rg` searches inside files with ripgrep, `g:fzterm_ignore` is respected (calls `lua require'fzterm'.rg()`)
-   - `:FilesOrGFiles` runs `:Files` or `:GFiles` depending on if vim's working dir is a git repo (calls `lua require'fzterm'.filesOrGitFiles()`)
-   - `:Commits` lists previous commits and calls `git show` on the selected commit's hash (calls `lua require'fzterm'.commits()`)
-   - `:Blame` shows git blame for the current buffer, with commit info in the preview window. Matching is done on any field but the commit hash (calls `lua require'fzterm'.blame()`)
-   - `:Commit` Opens neovim in the preview window for git message and commits (calls `lua require'fzterm'.commit()`)
+ - Implemented commands : (can be called with the vim command or `lua require'fzterm'.xxx()`, xxx being the function called)
+ | Vim command |          Summary         | Respects `g:fzterm_ignore` | function called |
+ | ----------- | ------------------------ | -------------------------- | --------------- |
+ | `:Files`      | Lists files in `pwd`     | Yes                         `files`            |
+ | `:GFiles`     | Lists git-files          | No                          `gitFiles`         |
+ | `:Buffers`    | Lists open buffers       | No                          `buffers`          |
+ | `:Branches`   | Lists git branches and lets you checkout to the selected one | No  `branch`  |
+ | `:Ag` | Searches files with the silver searcher | Yes  `ag`  |
+ | `:Rg` | Searches files with Ripgrep | Yes  `rg`  |
+ | `:FilesOrGFiles` | Runs  `:Files` or `:GFiles` depending on the presence of a .git directory at vim's `pwd` | No | filesOrGitFiles |
+ | `:Commits` | Lists git commits and shows you details | No  `commits`  |
+ | `:Blame` | Runs git blame on the file and lets you search the lines, displaying commit details in preview window | No  `blame`  |
+ | `:Commit` | Runs git commit in the preview window | No  `commit`  |
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration
