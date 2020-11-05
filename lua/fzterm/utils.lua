@@ -20,8 +20,10 @@ M.exec_and_close = function(base_win, buf, edit_cmd)
   local float_win = vim.api.nvim_get_current_win()
   vim.api.nvim_set_current_win(base_win)
   vim.defer_fn(function() return edit(edit_cmd) end, 10)
+  if vim.api.nvim_buf_is_valid(buf) then
+    vim.api.nvim_buf_delete(buf, {force = true})
+  end
   vim.api.nvim_win_close(float_win, true)
-  vim.api.nvim_buf_delete(buf, {force = true})
 end
 
 return M
