@@ -31,7 +31,7 @@ return {
 
   branch = function()
     local matcher = "fzf"
-    return require'fzterm.main'("git branch", "xargs git checkout > /dev/null 2>&1", matcher)
+    return require'fzterm.main'("git branch", "xargs git checkout -q > /dev/null 2>&1", matcher)
   end,
 
   ag = function()
