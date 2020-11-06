@@ -26,6 +26,16 @@ return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
   if internal then
     vim.cmd(":redir! > " .. tmp .. "/fztermcmd | silent! " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
+    local lnumber = function(filename)
+      local res = 0
+      for _ in io.lines(filename) do
+        res = res + 1
+      end
+      return res
+    end
+    if lnumber(tmp .. "/fztermcmd") == 0 then
+      return
+    end
   end
   if post_cmd then
     post_cmd = " | " .. post_cmd

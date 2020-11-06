@@ -26,6 +26,15 @@ M.exec_and_close = function(base_win, buf, edit_cmd)
   end
 end
 
+local unpack_lsp = function(res, type)
+  local items
+  if type == "symbols" then
+    items = vim.lsp.util.symbols_to_items(res.result, 0)
+  else
+    items = vim.lsp.util.locations_to_items(res.result, 0)
+  end
+  return items
+end
 M.lsp = function(query, type)
   local params = vim.lsp.util.make_position_params()
   params.query = ""
@@ -33,11 +42,9 @@ M.lsp = function(query, type)
   local timeout = 10000
   local symbols = vim.lsp.buf_request_sync(0, query, params, timeout)
   for _, res in pairs(symbols) do
-    local items
-    if type == "symbols" then
-      items = vim.lsp.util.symbols_to_items(res.result, 0)
-    else
-      items = vim.lsp.util.locations_to_items(res.result, 0)
+    local valid, items = pcall(unpack_lsp, res, type)
+    if not valid then
+      items = {}
     end
     for _, symbol in pairs(items) do
       if not string.match(symbol.text, "<Anonymous>$") then
