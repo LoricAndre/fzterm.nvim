@@ -2,7 +2,6 @@ local vim = vim
 
 return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
   local base_win = vim.api.nvim_get_current_win()
-  local buf = vim.api.nvim_create_buf(false, false)
   local tmp = require'fzterm.utils'.get_tmp()
 
   -- Window geometry
@@ -24,9 +23,8 @@ return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
     height = win_height,
     style = 'minimal'
   }
-  vim.api.nvim_open_win(buf, true, opt)
   if internal then
-    vim.api.nvim_command(":redir! > " .. tmp .. "/fztermcmd | silent " .. pre_cmd .. " | redir end")
+    vim.cmd(":redir! > " .. tmp .. "/fztermcmd | silent! " .. pre_cmd .. " | redir end")
     pre_cmd = "sed 1d ".. tmp .. "/fztermcmd"
   end
   if post_cmd then
@@ -35,9 +33,11 @@ return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
     post_cmd = ""
   end
   local cmd = edit_cmd or "edit"
-  vim.api.nvim_command(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
-  vim.api.nvim_command(":start")
-  vim.api.nvim_command(":au TermClose <buffer> :lua require'fzterm.utils'.exec_and_close("
+  local buf = vim.api.nvim_create_buf(false, false)
+  vim.api.nvim_open_win(buf, true, opt)
+  vim.cmd(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
+  vim.cmd(":start")
+  vim.cmd(":au TermClose <buffer> :lua require'fzterm.utils'.exec_and_close("
   .. base_win ..  ", "
   .. buf .. ", \""
   .. cmd .. "\")")

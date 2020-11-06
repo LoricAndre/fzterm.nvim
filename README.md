@@ -21,6 +21,9 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
  | `:Commits` | Lists git commits and shows you details | No | `commits`  |
  | `:Blame` | Runs git blame on the file and lets you search the lines, displaying commit details in preview window | No | `blame`  |
  | `:Commit` | Runs git commit in the preview window | No | `commit`  |
+ | `:DocumentSymbols` | Gets document symbols from neovim's built-in lsp | No | `documentSymbols` |
+ | `:WorkspaceSymbols` | Gets workspace symbols from neovim's built-in lsp | No | `workspaceSymbols` |
+ | `:References` | Gets references to keyword under the cursor from neovim's built-in lsp | No | `references` |
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration

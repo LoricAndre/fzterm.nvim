@@ -31,7 +31,7 @@ return {
 
   branch = function()
     local matcher = "fzf"
-    return require'fzterm.main'("git branch", "xargs git checkout -q > /dev/null 2>&1", matcher)
+    return require'fzterm.main'("git branch", "xargs git checkout -q > /dev/null 2>&1", matcher, false, "edit!")
   end,
 
   ag = function()
@@ -91,4 +91,22 @@ return {
   commit = function()
     return require'fzterm.main'('git commit -a || true', false, 'xargs echo && echo "\\n\\nPress enter to continue..." && read')
   end,
+
+  workspaceSymbols = function()
+    local cmd = ":call luaeval(\"require'fzterm.utils'.lsp('workspace/symbol', 'symbols')\")"
+    local matcher = "fzf --preview='bat --highlight-line {-1} -r{-1}: {-2} --color=always' --with-nth=..-3"
+    return require'fzterm.main'(cmd, "awk '{printf \"+\\%s \\%s\", $NF, $(NF-1)}'", matcher, true)
+  end,
+
+  documentSymbols = function()
+    local cmd = ":call luaeval(\"require'fzterm.utils'.lsp('textDocument/documentSymbol', 'symbols')\")"
+    local matcher = "fzf --preview='bat --highlight-line {-1} -r{-1}: {-2} --color=always' --with-nth=..-3"
+    return require'fzterm.main'(cmd, "awk '{printf \"+\\%s \\%s\", $NF, $(NF-1)}'", matcher, true)
+  end,
+
+  references = function()
+    local cmd = ":call luaeval(\"require'fzterm.utils'.lsp('textDocument/references', 'locations')\")"
+    local matcher = "fzf --preview='bat --highlight-line {-1} -r{-1}: {-2} --color=always' --with-nth=..-3"
+    return require'fzterm.main'(cmd, "awk '{printf \"+\\%s \\%s\", $NF, $(NF-1)}'", matcher, true)
+  end
 }
