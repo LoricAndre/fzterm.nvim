@@ -108,5 +108,9 @@ return {
     local cmd = ":call luaeval(\"require'fzterm.utils'.lsp('textDocument/references', 'locations')\")"
     local matcher = "fzf --preview='bat --highlight-line {-1} -r{-1}: {-2} --color=always' --with-nth=..-3"
     return require'fzterm.main'(cmd, "awk '{printf \"+\\%s \\%s\", $NF, $(NF-1)}'", matcher, true)
+  end,
+
+  mappings = function()
+    return require'fzterm.main'(":0verbose map", "false", "fzf", true)
   end
 }

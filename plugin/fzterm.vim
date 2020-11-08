@@ -13,4 +13,5 @@ if !exists("g:fzterm_disable_com") || !g:fzterm_disable_com
   com DocumentSymbols lua require'fzterm'.documentSymbols()
   com WorkspaceSymbols lua require'fzterm'.workspaceSymbols()
   com References lua require'fzterm'.references()
+  com Mappings lua require'fzterm'.mappings()
 endif
