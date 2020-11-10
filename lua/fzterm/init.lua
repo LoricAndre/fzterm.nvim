@@ -112,5 +112,10 @@ return {
 
   mappings = function()
     return require'fzterm.main'(":0verbose map", "false", "fzf", true)
+  end,
+
+  colors = function()
+    return require'fzterm.main'(":echo join(getcompletion('', 'color'), '\n')", false, "fzf", true, ":colorscheme")
   end
+
 }

@@ -25,6 +25,7 @@ The only dependencies are bat, fzf and ag, but the framework is still usable wit
  | `:WorkspaceSymbols` | Gets workspace symbols from neovim's built-in lsp | No | `workspaceSymbols` |
  | `:References` | Gets references to keyword under the cursor from neovim's built-in lsp | No | `references` |
  | `:Mappings` | Fuzzy search for nvim mappings | No | `mappings` |
+ | `:Colors` | Fuzzy search colorschemes and use the selected one | No | `colors` |
  - You can use the basic commands by simply calling them or mapping them, for example `nnoremap <leader>f :Files<CR>`. 
 
 ## Configuration
