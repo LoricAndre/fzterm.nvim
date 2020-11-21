@@ -15,4 +15,5 @@ if !exists("g:fzterm_disable_com") || !g:fzterm_disable_com
   com References lua require'fzterm'.references()
   com Mappings lua require'fzterm'.mappings()
   com Colors lua require'fzterm'.colors()
+  com Ranger lua require'fzterm'.ranger()
 endif

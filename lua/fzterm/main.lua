@@ -1,6 +1,6 @@
 local vim = vim
 
-return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
+return function(pre_cmd, post_cmd, matcher, internal, edit_cmd, no_redir)
   local base_win = vim.api.nvim_get_current_win()
   local tmp = require'fzterm.utils'.get_tmp()
 
@@ -42,13 +42,17 @@ return function(pre_cmd, post_cmd, matcher, internal, edit_cmd)
   else
     post_cmd = ""
   end
-  local cmd = edit_cmd or "edit"
+  edit_cmd = edit_cmd or "edit"
   local buf = vim.api.nvim_create_buf(false, false)
   vim.api.nvim_open_win(buf, true, opt)
-  vim.cmd(":term " .. pre_cmd .. " | ".. matcher .. post_cmd .. " > " .. tmp .. "/fzterm")
+  local cmd = ":term " .. pre_cmd .. " | ".. matcher .. post_cmd
+  if not no_redir then
+    cmd = cmd .. " > " .. tmp .. "/fzterm"
+  end
+  vim.cmd(cmd)
   vim.cmd(":start")
   vim.cmd(":au TermClose <buffer> :lua require'fzterm.utils'.exec_and_close("
   .. base_win ..  ", "
   .. buf .. ", \""
-  .. cmd .. "\")")
+  .. edit_cmd .. "\")")
 end

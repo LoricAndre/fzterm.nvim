@@ -116,6 +116,9 @@ return {
 
   colors = function()
     return require'fzterm.main'(":echo join(getcompletion('', 'color'), '\n')", false, "fzf", true, ":colorscheme")
-  end
+  end,
 
+  ranger = function()
+    return require'fzterm'.fzterm('false', false, 'r() {ranger --choosefiles=/tmp/fzterm} && r', false, false, true)
+  end
 }
