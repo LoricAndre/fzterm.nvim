@@ -67,7 +67,7 @@ return {
   end,
 
   filesOrGitFiles = function()
-    if vim.fn.isdirectory('.git') then
+    if vim.fn.isdirectory('.git') == 1 then
       return require'fzterm'.gitFiles()
     else
       return require'fzterm'.files()
