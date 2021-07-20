@@ -1,5 +1,5 @@
 # FZTerm
-
+## **This plugin is deprecated, see [One term](https://github.com/LoricAndre/OneTerm.nvim.git)**
 ## Idea
 FZTerm is my attempt at a fuzzy finder plugin, using a floating terminal and basically nothing else.
 The basic idea is to make it fully customizable, the plugins provides the basic framework and a few implementations.
